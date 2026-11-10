@@ -338,27 +338,33 @@ color: #1d1d1d;
     transition-delay: .1s;
 }
 .swiper-slide:nth-child(1) .slide-img{
-    background-image: url("img/moteelz/main_bg.PNG");
+    background-image: url("img/sumaya/main_bg.PNG");
 }
 .swiper-slide:nth-child(2) .slide-img{
-    background-image: url("img/bemaal/main.PNG");
+    background-image: url("img/easypear/main_bg.PNG");
 }
 .swiper-slide:nth-child(3) .slide-img{
-    background-image: url("img/clg/main.PNG");
+    background-image: url("img/moteelz/main_bg.PNG");
 }
 .swiper-slide:nth-child(4) .slide-img{
-    background-image: url("img/gk/main.PNG");
+    background-image: url("img/bemaal/main.PNG");
 }
 .swiper-slide:nth-child(5) .slide-img{
-    background-image: url("img/config.PNG");
+    background-image: url("img/clg/main.PNG");
 }
 .swiper-slide:nth-child(6) .slide-img{
-    background-image: url("img/mahjoz4.PNG");
+    background-image: url("img/gk/main.PNG");
 }
 .swiper-slide:nth-child(7) .slide-img{
-    background-image: url("img/richbasin6.PNG");
+    background-image: url("img/config.PNG");
 }
 .swiper-slide:nth-child(8) .slide-img{
+    background-image: url("img/mahjoz4.PNG");
+}
+.swiper-slide:nth-child(9) .slide-img{
+    background-image: url("img/richbasin6.PNG");
+}
+.swiper-slide:nth-child(10) .slide-img{
     background-image: url("img/richbasin1.PNG");
 }
 
