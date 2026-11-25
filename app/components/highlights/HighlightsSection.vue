@@ -14,7 +14,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section id="highlights" ref="root" class="section-pad border-t border-white/5 bg-ink-soft/40 overflow-hidden">
+  <section id="highlights" ref="root" class="section-pad border-t border-white/5 bg-ink-soft/20 overflow-hidden">
     <UiSectionHeading title="Engineering Highlights" tag="h2" />
     <p class="text-fog max-w-2xl mb-10 -mt-6">
       Proof points from shipped work — values taken from the CV, not marketing fluff.

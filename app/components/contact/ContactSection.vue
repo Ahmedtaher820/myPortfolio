@@ -13,12 +13,14 @@ const form = reactive({
 
 const status = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const errorMsg = ref('')
+const errorHint = ref('')
 const fieldErrors = ref<Record<string, string>>({})
 
 onMounted(() => {
   if (!root.value || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
   const { $gsap } = useNuxtApp()
   const gsap = $gsap as typeof import('gsap').default
+  if (!gsap) return
   const ctx = gsap.context(() => {
     gsap.from('.contact-reveal', {
       opacity: 0,
@@ -36,6 +38,7 @@ async function onSubmit() {
   if (status.value === 'loading') return
   status.value = 'loading'
   errorMsg.value = ''
+  errorHint.value = ''
   fieldErrors.value = {}
 
   try {
@@ -60,9 +63,30 @@ async function onSubmit() {
     }
   } catch (e: unknown) {
     status.value = 'error'
-    const err = e as { data?: { message?: string; errors?: Record<string, string> }; statusMessage?: string }
-    errorMsg.value = err?.data?.message || err?.statusMessage || 'Unable to send message. Please try again.'
-    fieldErrors.value = err?.data?.errors || {}
+    const err = e as {
+      data?: { message?: string; errors?: Record<string, string> }
+      statusMessage?: string
+      statusCode?: number
+    }
+    const code = err?.statusCode
+    const serverMsg = err?.data?.message || err?.statusMessage || ''
+
+    if (code === 503 || /not configured|RESEND/i.test(serverMsg)) {
+      errorMsg.value = 'Email delivery is not configured on this environment yet.'
+      errorHint.value = `You can still reach me directly at ${site.email}.`
+    } else if (code === 429) {
+      errorMsg.value = serverMsg || 'Too many requests. Please wait a moment and try again.'
+    } else if (code === 400) {
+      errorMsg.value = serverMsg || 'Please fix the highlighted fields and try again.'
+      fieldErrors.value = err?.data?.errors || {}
+    } else if (code === 502) {
+      errorMsg.value = 'The email provider could not deliver your message. Please try again in a few minutes.'
+      errorHint.value = `Or email me at ${site.email}.`
+    } else {
+      errorMsg.value = serverMsg || 'Unable to send message. Please try again.'
+      errorHint.value = `If this keeps happening, email ${site.email}.`
+    }
+    fieldErrors.value = err?.data?.errors || fieldErrors.value
   }
 }
 </script>
@@ -89,7 +113,6 @@ async function onSubmit() {
       <form class="contact-reveal relative space-y-5" novalidate @submit.prevent="onSubmit">
         <span class="html-tag absolute -top-6 left-0" aria-hidden="true">&lt;form&gt;</span>
 
-        <!-- Honeypot -->
         <input
           v-model="form.company"
           type="text"
@@ -107,7 +130,7 @@ async function onSubmit() {
             v-model="form.fullName"
             type="text"
             required
-            class="w-full bg-ink-soft border-0 border-b-2 border-white/20 focus:border-accent outline-none px-3 py-3 text-white"
+            class="w-full bg-ink-soft/80 border-0 border-b-2 border-white/20 focus:border-accent outline-none px-3 py-3 text-white"
           >
           <p v-if="fieldErrors.fullName" class="text-xs text-red-400 mt-1">{{ fieldErrors.fullName }}</p>
         </div>
@@ -119,7 +142,7 @@ async function onSubmit() {
             v-model="form.email"
             type="email"
             required
-            class="w-full bg-ink-soft border-0 border-b-2 border-white/20 focus:border-accent outline-none px-3 py-3 text-white"
+            class="w-full bg-ink-soft/80 border-0 border-b-2 border-white/20 focus:border-accent outline-none px-3 py-3 text-white"
           >
           <p v-if="fieldErrors.email" class="text-xs text-red-400 mt-1">{{ fieldErrors.email }}</p>
         </div>
@@ -130,7 +153,7 @@ async function onSubmit() {
             id="phone"
             v-model="form.phone"
             type="tel"
-            class="w-full bg-ink-soft border-0 border-b-2 border-white/20 focus:border-accent outline-none px-3 py-3 text-white"
+            class="w-full bg-ink-soft/80 border-0 border-b-2 border-white/20 focus:border-accent outline-none px-3 py-3 text-white"
           >
           <p v-if="fieldErrors.phone" class="text-xs text-red-400 mt-1">{{ fieldErrors.phone }}</p>
         </div>
@@ -142,7 +165,7 @@ async function onSubmit() {
             v-model="form.subject"
             type="text"
             required
-            class="w-full bg-ink-soft border-0 border-b-2 border-white/20 focus:border-accent outline-none px-3 py-3 text-white"
+            class="w-full bg-ink-soft/80 border-0 border-b-2 border-white/20 focus:border-accent outline-none px-3 py-3 text-white"
           >
           <p v-if="fieldErrors.subject" class="text-xs text-red-400 mt-1">{{ fieldErrors.subject }}</p>
         </div>
@@ -154,7 +177,7 @@ async function onSubmit() {
             v-model="form.message"
             required
             rows="5"
-            class="w-full bg-ink-soft border-0 border-b-2 border-white/20 focus:border-accent outline-none px-3 py-3 text-white resize-y"
+            class="w-full bg-ink-soft/80 border-0 border-b-2 border-white/20 focus:border-accent outline-none px-3 py-3 text-white resize-y"
           />
           <p v-if="fieldErrors.message" class="text-xs text-red-400 mt-1">{{ fieldErrors.message }}</p>
         </div>
@@ -167,12 +190,22 @@ async function onSubmit() {
           {{ status === 'loading' ? 'Sending…' : 'Send Message' }}
         </button>
 
-        <p v-if="status === 'success'" class="text-sm text-accent" role="status">
-          Message sent. Thank you — I’ll get back to you soon.
-        </p>
-        <p v-else-if="status === 'error'" class="text-sm text-red-400" role="alert">
-          {{ errorMsg }}
-        </p>
+        <div
+          v-if="status === 'success'"
+          class="rounded border border-accent/40 bg-accent/10 px-4 py-3"
+          role="status"
+        >
+          <p class="text-sm text-accent m-0 font-medium">Message sent successfully.</p>
+          <p class="text-sm text-white/75 m-0 mt-1">Thanks — I’ll reply as soon as I can.</p>
+        </div>
+        <div
+          v-else-if="status === 'error'"
+          class="rounded border border-red-400/40 bg-red-500/10 px-4 py-3"
+          role="alert"
+        >
+          <p class="text-sm text-red-300 m-0 font-medium">{{ errorMsg }}</p>
+          <p v-if="errorHint" class="text-sm text-white/70 m-0 mt-1">{{ errorHint }}</p>
+        </div>
 
         <span class="html-tag absolute -bottom-6 left-0" aria-hidden="true">&lt;/form&gt;</span>
       </form>

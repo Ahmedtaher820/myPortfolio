@@ -37,16 +37,7 @@ function onImgError(e: Event) {
     ref="root"
     class="projects-section relative border-t border-white/5 overflow-hidden"
   >
-    <!-- Soft moving cyan ↔ black blend (not a swiper) -->
-    <div class="projects-ambient pointer-events-none absolute inset-0 -z-0" aria-hidden="true">
-      <div class="projects-ambient__base absolute inset-0 bg-ink" />
-      <div class="projects-ambient__blob projects-ambient__blob--a" />
-      <div class="projects-ambient__blob projects-ambient__blob--b" />
-      <div class="projects-ambient__blob projects-ambient__blob--c" />
-      <div class="projects-ambient__veil absolute inset-0 bg-gradient-to-b from-ink/40 via-transparent to-ink/70" />
-    </div>
-
-    <div class="section-pad relative z-[1]">
+    <div class="section-pad relative">
       <UiSectionHeading title="Projects" tag="h2" />
       <p class="text-fog max-w-2xl mb-12 -mt-6">
         Production work in brief order. Sumaya369 and Mashawirk are called out for migration/perf and personal-product ownership.
@@ -219,80 +210,3 @@ function onImgError(e: Event) {
     <ProjectsProjectModal :project="active" @close="active = null" />
   </section>
 </template>
-
-<style scoped>
-.projects-ambient__blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  will-change: transform, opacity;
-}
-
-.projects-ambient__blob--a {
-  width: min(70vw, 640px);
-  height: min(70vw, 640px);
-  top: -8%;
-  left: -12%;
-  background: radial-gradient(circle, rgba(8, 253, 216, 0.28) 0%, rgba(8, 253, 216, 0) 70%);
-  animation: projects-blob-a 18s ease-in-out infinite alternate;
-}
-
-.projects-ambient__blob--b {
-  width: min(55vw, 520px);
-  height: min(55vw, 520px);
-  top: 35%;
-  right: -18%;
-  background: radial-gradient(circle, rgba(8, 253, 216, 0.18) 0%, rgba(0, 0, 0, 0) 68%);
-  animation: projects-blob-b 22s ease-in-out infinite alternate;
-}
-
-.projects-ambient__blob--c {
-  width: min(60vw, 560px);
-  height: min(60vw, 560px);
-  bottom: 5%;
-  left: 20%;
-  background: radial-gradient(circle, rgba(0, 0, 0, 0.85) 0%, rgba(8, 253, 216, 0.12) 45%, rgba(29, 29, 29, 0) 72%);
-  animation: projects-blob-c 26s ease-in-out infinite alternate;
-}
-
-@keyframes projects-blob-a {
-  0% {
-    transform: translate(0, 0) scale(1);
-    opacity: 0.85;
-  }
-  100% {
-    transform: translate(12%, 18%) scale(1.15);
-    opacity: 1;
-  }
-}
-
-@keyframes projects-blob-b {
-  0% {
-    transform: translate(0, 0) scale(1.05);
-    opacity: 0.7;
-  }
-  100% {
-    transform: translate(-16%, -10%) scale(1.2);
-    opacity: 1;
-  }
-}
-
-@keyframes projects-blob-c {
-  0% {
-    transform: translate(0, 0) scale(0.95);
-    opacity: 0.75;
-  }
-  100% {
-    transform: translate(-8%, -14%) scale(1.18);
-    opacity: 0.95;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .projects-ambient__blob--a,
-  .projects-ambient__blob--b,
-  .projects-ambient__blob--c {
-    animation: none;
-  }
-}
-</style>

@@ -26,7 +26,7 @@ useHead({
 </script>
 
 <template>
-  <div class="min-h-screen bg-ink text-white">
+  <div class="min-h-screen text-white">
     <LayoutAppHeader />
     <article class="section-pad max-w-5xl mx-auto">
       <NuxtLink to="/#work" class="text-accent text-sm hover:underline">← Back to projects</NuxtLink>
