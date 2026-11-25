@@ -52,8 +52,11 @@ export default defineNuxtConfig({
   nitro: {
     // Vercel serverless SSR (Nuxt API routes / Resend). Override locally with NITRO_PRESET if needed.
     preset: process.env.NITRO_PRESET || 'vercel',
+    // Avoid prerendering `/` into a static HTML shell that can drift from `/_nuxt` hashes on Vercel.
+    // SSR serves HTML + matching build assets from the same deployment.
     prerender: {
-      crawlLinks: true,
+      crawlLinks: false,
+      routes: [],
     },
   },
 })

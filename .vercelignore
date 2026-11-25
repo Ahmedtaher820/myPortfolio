@@ -1,0 +1,23 @@
+# Never upload local build artifacts — they poison Vercel static/_nuxt output.
+.output
+.nuxt
+.nitro
+.data
+.cache
+dist
+.vercel/output
+
+# Dependencies & logs
+node_modules
+*.log
+vercel-*.log
+
+# Legacy static site (not part of Nuxt deploy)
+legacy-static
+
+# Local env / editor
+.env
+.env.*
+!.env.example
+.vscode
+.idea

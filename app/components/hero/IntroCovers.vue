@@ -3,6 +3,8 @@ import gsap from 'gsap'
 
 const emit = defineEmits<{ done: [] }>()
 const root = ref<HTMLElement | null>(null)
+/** Only true after client mount — never SSR the overlay (broken JS would leave the page stuck). */
+const active = ref(false)
 const done = ref(false)
 let safetyTimer: ReturnType<typeof setTimeout> | null = null
 let ctx: gsap.Context | null = null
@@ -10,6 +12,7 @@ let ctx: gsap.Context | null = null
 function finish() {
   if (done.value) return
   done.value = true
+  active.value = false
   emit('done')
   if (safetyTimer) {
     clearTimeout(safetyTimer)
@@ -20,6 +23,7 @@ function finish() {
 }
 
 onMounted(async () => {
+  active.value = true
   // Always dismiss overlay eventually — never leave the home page blank forever.
   safetyTimer = setTimeout(finish, 9000)
 
@@ -72,7 +76,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div
-    v-show="!done"
+    v-if="active && !done"
     ref="root"
     class="fixed inset-0 z-[200]"
     aria-hidden="true"
