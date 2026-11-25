@@ -1,6 +1,6 @@
 import type { ExperienceItem } from '../types/portfolio'
 
-/** Source of truth: Ahmed-Taher-Software-Engineer-CV.pdf */
+/** Source of truth: Ahmed_Taher_Senior_Frontend_CV.pdf */
 export const experience: ExperienceItem[] = [
   {
     id: 'elyak',
@@ -12,8 +12,9 @@ export const experience: ExperienceItem[] = [
     type: 'full-time',
     product: 'Sumaya369 LMS',
     bullets: [
-      'Owned LMS dashboard migration (Vue 2 / JavaScript → Vue 3 + TypeScript) and Nuxt 3 SSR public site: Home, Courses, Bundles, Auth.',
-      'Raised Lighthouse Performance 65→95 and SEO 70→99; polished loading, empty, and error states with product stakeholders.',
+      'Migrated the LMS dashboard from Vue 2 / JavaScript to Vue 3 + TypeScript; rebuilt the public site on Nuxt with SSR.',
+      'Raised Lighthouse performance 65→95 and SEO 70→99 via virtual scrolling, lazy loading, SSR, and accessibility fixes.',
+      'Shipped production Home, Courses, Bundles, and Auth flows with a maintainable component architecture.',
     ],
     tech: ['Vue 3', 'Nuxt 3', 'TypeScript', 'Pinia', 'Tailwind', 'SSR'],
   },
@@ -27,10 +28,11 @@ export const experience: ExperienceItem[] = [
     type: 'full-time',
     product: 'Hotel booking platform',
     bullets: [
-      'Led 5+ developers modernizing a production booking app (Vue 2 / Vuex → Vue 3 / Pinia / Tailwind), including 3,000+ line components.',
-      'Shipped real-time hotel details and images with SSE; set coding standards with PMs and backend for readable, stable releases.',
+      'Led 5+ frontend developers on a Vue 2 / Vuex rewrite to Vue 3, Pinia, and Tailwind, including 3,000+ line legacy components.',
+      'Shipped real-time hotel details/images with SSE and standardized UI with shadcn-vue for faster, consistent delivery.',
+      'Set coding standards and worked closely with PMs and backend engineers throughout the rewrite.',
     ],
-    tech: ['Vue 3', 'Pinia', 'Tailwind', 'SSE', 'TypeScript'],
+    tech: ['Vue 3', 'Pinia', 'Tailwind', 'SSE', 'shadcn-vue', 'TypeScript'],
   },
   {
     id: 'nathan',
@@ -42,8 +44,9 @@ export const experience: ExperienceItem[] = [
     type: 'full-time',
     product: 'Joined as Frontend Developer, promoted to Senior',
     bullets: [
-      'Shipped ClubLab Golf and GolfKraft with React / Next.js; promoted to Senior after production delivery.',
-      'Built drag-and-drop form configurator and ERP page builder (~80% of ERP UI); owned features from requirements to production with design and product.',
+      'Built a drag-and-drop form configurator (PrimeVue inputs) used in production by ClubLab Golf; promoted to Senior after delivery.',
+      'Built a drag-and-drop ERP page builder (tables, charts, forms, navigation) that produced ~80% of ERP UI.',
+      'Led frontend work across 4+ ERP systems with teams in Dubai and Kenya; shipped ClubLab Golf and GolfKraft with Next.js.',
     ],
     tech: ['React', 'Next.js', 'TypeScript', 'PrimeVue'],
   },
@@ -57,7 +60,8 @@ export const experience: ExperienceItem[] = [
     type: 'full-time',
     product: 'Booking platform',
     bullets: [
-      'Built Figma-accurate Vue 3 / Nuxt 3 booking flows with REST / GraphQL and E2E tests to keep production UX stable.',
+      'Implemented responsive Vue 3 / Nuxt 3 interfaces from Figma with production-ready API integration.',
+      'Integrated GraphQL APIs and added end-to-end tests to reduce regressions before release.',
     ],
     tech: ['Vue 3', 'Nuxt 3', 'TypeScript', 'REST', 'GraphQL'],
   },
@@ -71,7 +75,8 @@ export const experience: ExperienceItem[] = [
     type: 'part-time',
     product: 'Fintech platform',
     bullets: [
-      'Sole frontend owner: shipped website and dashboards from infancy to production (Vue 3, TypeScript, Tailwind, PrimeVue, PWA), about two weeks early.',
+      'Sole frontend developer: built website and dashboards from scratch with Vue 3, TypeScript, Tailwind, PrimeVue, and a custom design system.',
+      'Added PWA features and delivered two weeks ahead of schedule.',
     ],
     tech: ['Vue 3', 'TypeScript', 'Tailwind', 'PrimeVue', 'PWA'],
   },
@@ -85,7 +90,8 @@ export const experience: ExperienceItem[] = [
     type: 'part-time',
     product: 'CRM / ERP platform',
     bullets: [
-      'Built Google Calendar Follow-Up sync (OAuth) and Vehicle Inventory filters; refactored legacy modules into reusable adapters.',
+      'Built a Follow-Up calendar synced with Google Calendar (OAuth), with reliable cross-client date/time handling.',
+      'Shipped Vehicle Inventory with advanced filters and listings; refactored legacy modules into reusable adapters.',
     ],
     tech: ['Vue.js', 'TypeScript', 'Google OAuth', 'REST'],
   },

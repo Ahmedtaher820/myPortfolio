@@ -1,10 +1,10 @@
 import type { SkillGroup } from '../types/portfolio'
 
-/** Aligned to Ahmed-Taher-Software-Engineer-CV.pdf (+ Vuetify, Bootstrap per brief) */
+/** Aligned to Ahmed_Taher_Senior_Frontend_CV.pdf (+ Bootstrap per preferences) */
 export const skillGroups: SkillGroup[] = [
   {
     title: 'Frameworks',
-    items: ['React', 'Next.js', 'Vue 3', 'Nuxt 3'],
+    items: ['Vue 3', 'Nuxt 3', 'React', 'Next.js'],
   },
   {
     title: 'Languages',
@@ -12,7 +12,7 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     title: 'State',
-    items: ['Redux Toolkit', 'Pinia', 'Vuex'],
+    items: ['Pinia', 'Vuex', 'Redux Toolkit'],
   },
   {
     title: 'UI',
@@ -20,22 +20,31 @@ export const skillGroups: SkillGroup[] = [
       'Tailwind CSS',
       'PrimeVue',
       'Vuetify',
+      'Quasar',
       'Bootstrap',
-      'shadcn/ui',
       'shadcn-vue',
+      'shadcn/ui',
       'Design systems',
     ],
   },
   {
     title: 'APIs',
-    items: ['REST', 'GraphQL', 'WebSocket', 'SSE', 'OAuth'],
+    items: ['REST', 'GraphQL', 'WebSocket', 'SSE'],
   },
   {
     title: 'Tools',
-    items: ['Git', 'CI/CD', 'Vite', 'Webpack', 'Vercel', 'Vitest', 'Playwright'],
+    items: ['Git', 'CI/CD', 'Vite', 'Webpack', 'PWA'],
   },
   {
-    title: 'Other',
-    items: ['SSR', 'PWA', 'SEO', 'A11y', 'Performance', 'Code reviews'],
+    title: 'Quality',
+    items: [
+      'Unit & E2E testing',
+      'A11y',
+      'Frontend architecture',
+      'Code reviews',
+      'SSR',
+      'SEO',
+      'Performance',
+    ],
   },
 ]

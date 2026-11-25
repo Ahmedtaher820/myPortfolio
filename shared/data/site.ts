@@ -1,12 +1,12 @@
 export const site = {
   name: 'Ahmed Taher',
   fullName: 'Ahmed Taher Hamouda',
-  title: 'Frontend Engineer',
-  shortTitle: 'Frontend Engineer',
+  title: 'Senior Frontend Developer',
+  shortTitle: 'Senior Frontend Developer',
   location: 'Dubai, UAE',
   phone: '+971 55 447 9557',
   email: 'ahmedtaher4550@gmail.com',
-  cvPath: '/cv/Ahmed-Taher-Software-Engineer-CV.pdf',
+  cvPath: '/cv/Ahmed_Taher_Senior_Frontend_CV.pdf',
   socials: [
     {
       id: 'github',
@@ -20,20 +20,20 @@ export const site = {
     },
   ],
   about: {
-    /** Hero + SEO short blurb — Dubai-based; no project names; React/Next ≈ Vue/Nuxt; TypeScript emphasized. */
+    /** Hero + SEO short blurb — Dubai-based; no project names; balanced React/Next/Vue/Nuxt; TypeScript emphasized. */
     summary:
-      'Dubai-based Frontend Engineer with 4.5+ years shipping production TypeScript apps across React, Next.js, Vue 3, and Nuxt. Available on-site and remotely — owning features from scope to release with clear UX, maintainable code, and performance-conscious delivery.',
+      'Dubai-based Senior Frontend Developer with 4+ years building and modernizing production web apps across LMS, ERP, booking, and fintech. Strong across Vue 3 / Nuxt and React / Next.js with TypeScript. Available on-site and remotely — known for legacy migrations, measurable performance and SEO gains, and reusable UI systems.',
     /** Longer About body — CV-backed only. */
     body: [
-      'Based in Dubai, UAE, I work on-site and remotely across fintech, booking, LMS, and ERP products. Hands-on with React and Next.js in production, plus deep Vue 3 and Nuxt experience, with TypeScript as the default for readable, maintainable code.',
-      'I own features end to end with product and design: multi-step auth, booking, and inventory flows; crisp loading and error states; and migrations from legacy Vue 2 stacks to Vue 3 + TypeScript. Recent delivery includes raising Lighthouse Performance 65→95 and SEO 70→99 on an LMS public site, leading 5+ developers on a live booking rewrite, and sole frontend ownership of a fintech website and dashboards shipped about two weeks early with PWA support.',
-      'At Nathan Digital in Dubai I shipped commercial React / Next.js products and was promoted to Senior after production delivery; I also built a drag-and-drop form configurator and ERP page builder (~80% of ERP UI). I care about coding standards, SSR/SEO, and systems that stay fast as they grow.',
+      'Based in Dubai, UAE, I work on-site and remotely across LMS, ERP, booking, and fintech products. Strongest in Vue 3 / Nuxt (SSR) and productive with React / Next.js, with TypeScript as the default for readable, maintainable code.',
+      'I ship with product teams: legacy migrations, reusable UI systems, and measurable performance and SEO gains. Recent delivery includes raising Lighthouse performance 65→95 and SEO 70→99 on an LMS public site, leading 5+ frontend developers on a live booking rewrite, and sole frontend ownership of a fintech website and dashboards delivered two weeks ahead of schedule with PWA support.',
+      'At Nathan Digital in Dubai I built a drag-and-drop form configurator and ERP page builder (~80% of ERP UI), led frontend work across 4+ ERP systems with teams in Dubai and Kenya, and shipped commercial React / Next.js products after promotion to Senior. I care about coding standards, SSR/SEO, and systems that stay fast as they grow.',
     ],
     focus: [
-      'TypeScript-first frontend across React/Next.js and Vue 3/Nuxt',
+      'TypeScript-first frontend across Vue 3/Nuxt and React/Next.js',
       'On-site in Dubai and remote collaboration',
-      'Feature ownership from scope to release',
-      'Performance, SSR/SEO, and maintainable UI systems',
+      'Legacy migrations and reusable UI systems',
+      'Performance, SSR/SEO, and maintainable architecture',
     ],
     education:
       "Bachelor's Degree, Computers and Informatics — Suez Canal University, Egypt | 2019 – 2022",

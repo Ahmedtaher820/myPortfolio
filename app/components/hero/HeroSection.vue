@@ -20,7 +20,7 @@ const letters = [
   { char: 'R', under: 'R' },
 ]
 
-const titleChars = 'FRONTEND ENGINEER'.split('')
+const titleChars = 'SENIOR FRONTEND DEVELOPER'.split('')
 
 onMounted(async () => {
   await nextTick()
