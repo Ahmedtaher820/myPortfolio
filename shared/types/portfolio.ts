@@ -37,6 +37,8 @@ export interface SkillGroup {
 }
 
 export interface HighlightItem {
-  label: string
+  id: string
   value: string
+  label: string
+  detail: string
 }

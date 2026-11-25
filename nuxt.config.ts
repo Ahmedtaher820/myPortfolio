@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   ssr: true,
-  modules: ['@nuxtjs/tailwindcss'],
+  modules: ['@nuxtjs/tailwindcss', 'motion-v/nuxt'],
   css: ['~/assets/css/main.css'],
   tailwindcss: {
     cssPath: '~/assets/css/main.css',

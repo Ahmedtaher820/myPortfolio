@@ -47,6 +47,17 @@ watch(open, async (isOpen) => {
 function close() {
   open.value = false
 }
+
+function goTo(href: string, event?: Event) {
+  event?.preventDefault()
+  close()
+  if (!import.meta.client) return
+  const el = document.querySelector(href)
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    history.replaceState(null, '', href)
+  }
+}
 </script>
 
 <template>
@@ -54,7 +65,7 @@ function close() {
     class="sticky top-0 z-50 flex items-center justify-between gap-4 px-5 md:px-10 lg:px-16 h-16 md:h-[72px] bg-ink/95 backdrop-blur border-b border-white/5 transition-shadow"
     :class="{ 'shadow-lg shadow-black/40': scrolled }"
   >
-    <a href="#top" class="font-display text-lg md:text-xl text-white no-underline tracking-tight" @click="close">
+    <a href="#top" class="font-display text-lg md:text-xl text-white no-underline tracking-tight" @click="goTo('#top', $event)">
       &lt;/Ahmed&gt;
     </a>
 
@@ -64,6 +75,7 @@ function close() {
         :key="link.href"
         :href="link.href"
         class="nav-link text-fog hover:text-white text-sm transition-colors relative after:absolute after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:h-0.5 after:w-0 after:bg-white after:transition-all hover:after:w-full"
+        @click="goTo(link.href, $event)"
       >
         {{ link.label }}
       </a>
@@ -99,7 +111,7 @@ function close() {
         :href="link.href"
         class="text-4xl text-white py-3 border-b border-white/10"
         :style="{ transitionDelay: `${(i + 1) * 0.08}s` }"
-        @click="close"
+        @click="goTo(link.href, $event)"
       >
         {{ link.label }}
       </a>

@@ -5,6 +5,7 @@ const root = ref<HTMLElement | null>(null)
 const socialRail = ref<HTMLElement | null>(null)
 const indicator = ref<HTMLElement | null>(null)
 
+/** Match legacy-static: outline letters; filled underlays bounce (non-dot data-char). */
 const letters = [
   { char: 'A', under: '.' },
   { char: 'H', under: 'H' },
@@ -28,10 +29,16 @@ onMounted(async () => {
 
   const { $gsap } = useNuxtApp()
   const gsap = $gsap as typeof import('gsap').default
+  if (!gsap) return
 
   const ctx = gsap.context(() => {
-    const spans = root.value!.querySelectorAll('.outlined-name span')
-    const bounce = root.value!.querySelectorAll('.outlined-name span[data-bounce="1"]')
+    const spans = root.value!.querySelectorAll<HTMLElement>('.outlined-name span[data-char]')
+    // legacy: heading.querySelectorAll("span:not([data-char='.'])")
+    const bounce = root.value!.querySelectorAll<HTMLElement>(
+      '.outlined-name span[data-char]:not([data-char="."])',
+    )
+
+    gsap.set(spans, { yPercent: 120 })
 
     gsap.from('.hero-panel', {
       opacity: 0,
@@ -41,22 +48,24 @@ onMounted(async () => {
       delay: 0.15,
     })
 
-    gsap.from(spans, {
-      yPercent: 120,
+    // legacy apps.js: to(span, 1, { yPercent: 0, staggerTo: 0.05, ease: "expo.inOut" })
+    gsap.to(spans, {
+      yPercent: 0,
       duration: 1,
-      stagger: 0.04,
+      stagger: 0.05,
       ease: 'expo.inOut',
-      delay: 0.2,
+      delay: 0.25,
     })
 
+    // legacy: y: 60, yoyo, repeat -1, stagger 0.05
     gsap.to(bounce, {
-      y: 18,
+      y: 60,
       duration: 1,
       yoyo: true,
       repeat: -1,
       stagger: 0.05,
       ease: 'expo.inOut',
-      delay: 1.2,
+      delay: 1.35,
     })
   }, root.value)
 
@@ -68,6 +77,7 @@ function onSocialEnter(e: Event) {
   if (!indicator.value || !socialRail.value) return
   const { $gsap } = useNuxtApp()
   const gsap = $gsap as typeof import('gsap').default
+  if (!gsap) return
   const railLeft = socialRail.value.getBoundingClientRect().left
   const x = target.getBoundingClientRect().left - railLeft
   gsap.to(indicator.value, {
@@ -76,30 +86,37 @@ function onSocialEnter(e: Event) {
     ease: 'elastic.out(1, 0.6)',
   })
 }
+
+function goSection(id: string) {
+  if (!import.meta.client) return
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  history.replaceState(null, '', `#${id}`)
+}
 </script>
 
 <template>
   <section
     id="top"
     ref="root"
-    class="section-pad min-h-[88vh] flex flex-col justify-center relative overflow-hidden"
+    class="section-pad min-h-[100svh] flex flex-col justify-center items-center relative overflow-hidden"
   >
-    <div class="hero-panel max-w-5xl">
+    <div class="hero-panel w-full max-w-4xl mx-auto flex flex-col items-center text-center">
       <p class="html-tag mb-4" aria-hidden="true">&lt;h1&gt;</p>
-      <h1 class="outlined-name font-display text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] leading-none tracking-[-0.06em] mb-6 flex flex-wrap gap-x-1">
+      <h1
+        class="outlined-name name font-display text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] leading-none tracking-[-0.06em] mb-6 inline-flex flex-wrap justify-center gap-x-1 overflow-hidden"
+      >
         <span
           v-for="(item, i) in letters"
           :key="i"
-          :data-char="item.under || item.char"
-          :data-bounce="item.under && item.under !== '.' ? '1' : '0'"
-          class="overflow-hidden"
+          v-bind="item.under ? { 'data-char': item.under } : {}"
+          class="relative inline-block"
         >{{ item.char === ' ' ? '\u00A0' : item.char }}</span>
       </h1>
       <p class="html-tag mb-2" aria-hidden="true">&lt;/h1&gt;</p>
 
-      <h2 class="relative w-fit mb-8">
+      <h2 class="relative w-fit mb-8 mx-auto">
         <span class="html-tag absolute -left-10 top-1/2 -translate-y-1/2 hidden md:inline" aria-hidden="true">&lt;h3&gt;</span>
-        <span class="flex flex-wrap gap-0.5 text-base md:text-xl tracking-[-0.08em] text-white/90">
+        <span class="flex flex-wrap justify-center gap-0.5 text-base md:text-xl tracking-[-0.08em] text-white/90">
           <span
             v-for="(c, i) in titleChars"
             :key="i"
@@ -113,19 +130,19 @@ function onSocialEnter(e: Event) {
         {{ site.about.summary }}
       </p>
 
-      <div class="relative w-fit mb-10">
+      <div class="relative w-fit mb-10 mx-auto">
         <span class="html-tag absolute -top-5 left-0" aria-hidden="true">&lt;div class="btn-group"&gt;</span>
-        <div class="flex flex-wrap gap-4">
-          <a href="#work" class="btn-outline">View Projects</a>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="#work" class="btn-outline" @click.prevent="goSection('work')">View Projects</a>
           <a :href="site.cvPath" target="_blank" rel="noopener" class="btn-outline">Download CV</a>
-          <a href="#contact" class="btn-outline">Contact Me</a>
+          <a href="#contact" class="btn-outline" @click.prevent="goSection('contact')">Contact Me</a>
         </div>
         <span class="html-tag absolute -bottom-5 right-0" aria-hidden="true">&lt;/div&gt;</span>
       </div>
 
-      <div ref="socialRail" class="relative pt-4">
+      <div ref="socialRail" class="relative pt-4 mx-auto">
         <span class="html-tag absolute -top-1 left-0" aria-hidden="true">&lt;ul&gt;</span>
-        <div class="relative flex items-center gap-8">
+        <div class="relative flex items-center justify-center gap-8">
           <span
             ref="indicator"
             class="absolute -top-2 left-0 w-2 h-2 rounded-full bg-accent"
@@ -148,10 +165,11 @@ function onSocialEnter(e: Event) {
     </div>
 
     <div
-      class="pointer-events-none absolute right-[-10%] top-1/2 -translate-y-1/2 w-[42vw] max-w-xl opacity-20 hidden lg:block"
+      class="pointer-events-none absolute inset-0 -z-10 opacity-30"
       aria-hidden="true"
     >
-      <div class="aspect-square rounded-full bg-gradient-to-br from-accent/40 via-transparent to-accent-mint/30 blur-2xl" />
+      <div class="absolute right-[-8%] top-1/2 -translate-y-1/2 w-[46vw] max-w-xl aspect-square rounded-full bg-gradient-to-br from-accent/35 via-transparent to-accent-mint/25 blur-2xl" />
+      <div class="absolute left-[-12%] bottom-[8%] w-[36vw] max-w-md aspect-square rounded-full bg-gradient-to-tr from-accent-mint/20 via-transparent to-accent/10 blur-3xl" />
     </div>
   </section>
 </template>

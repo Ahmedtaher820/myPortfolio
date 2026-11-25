@@ -74,6 +74,12 @@ body {
     @apply px-5 py-16 md:px-10 md:py-24 lg:px-16;
   }
 
+  /* Match legacy-static letter outline + filled underlay bounce */
+  .outlined-name {
+    -webkit-text-stroke: 1px #fff;
+    color: transparent !important;
+  }
+
   .outlined-name span {
     display: inline-block;
     position: relative;
@@ -81,12 +87,21 @@ body {
     -webkit-text-stroke: 1px #fff;
   }
 
-  .outlined-name span::before {
+  .outlined-name span[data-char]::before {
     content: attr(data-char);
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
     color: #fff;
-    transform: translateY(-1.05em);
+    -webkit-text-stroke: 0;
+    transform: translateY(-63px);
+    pointer-events: none;
+  }
+
+  @media (max-width: 768px) {
+    .outlined-name span[data-char]::before {
+      transform: translateY(-42px);
+    }
   }
 }
 

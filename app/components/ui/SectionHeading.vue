@@ -1,12 +1,19 @@
 <script setup lang="ts">
-defineProps<{
-  title: string
-  tag?: string
-}>()
+withDefaults(
+  defineProps<{
+    title: string
+    tag?: string
+    compact?: boolean
+  }>(),
+  { compact: false },
+)
 </script>
 
 <template>
-  <div class="relative mb-10 md:mb-14">
+  <div
+    class="relative"
+    :class="compact ? 'mb-6 md:mb-8' : 'mb-10 md:mb-14'"
+  >
     <span
       v-if="tag"
       class="html-tag absolute -top-5 left-0"

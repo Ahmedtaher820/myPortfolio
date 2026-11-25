@@ -41,20 +41,43 @@ useHead({
 })
 
 const introDone = ref(false)
+
+/** Smooth in-page hash navigation (works even if default hash jump is blocked). */
+function scrollToHash(hash: string) {
+  if (!import.meta.client || !hash.startsWith('#')) return
+  const el = document.querySelector(hash)
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    history.replaceState(null, '', hash)
+  }
+}
+
+onMounted(() => {
+  if (window.location.hash) {
+    nextTick(() => scrollToHash(window.location.hash))
+  }
+})
 </script>
 
 <template>
   <div>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[300] focus:bg-accent focus:text-ink focus:px-3 focus:py-2"
+    >
+      Skip to content
+    </a>
+
     <HeroIntroCovers @done="introDone = true" />
     <LayoutAppHeader />
-    <main>
-      <HeroHeroSection />
-      <AboutAboutSection />
-      <HighlightsHighlightsSection />
-      <SkillsSkillsSection />
-      <ExperienceExperienceSection />
-      <ProjectsProjectsSection />
-      <ContactContactSection />
+    <main id="main">
+      <HeroSection />
+      <AboutSection />
+      <HighlightsSection />
+      <SkillsSection />
+      <ExperienceSection />
+      <ProjectsSection />
+      <ContactSection />
     </main>
     <LayoutAppFooter />
     <LayoutCustomCursor />
