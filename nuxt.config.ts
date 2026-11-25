@@ -12,21 +12,22 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: { lang: 'en' },
-      title: 'Ahmed Taher — Senior Frontend Engineer',
+      title: 'Ahmed Taher — Frontend Engineer',
       meta: [
         {
           name: 'description',
           content:
-            'Senior Frontend Engineer with TypeScript across Vue 3, Nuxt, React, and Next.js. Building LMS, ERP, fintech, and booking platforms.',
+            'Dubai-based Frontend Engineer — TypeScript across React, Next.js, Vue 3, and Nuxt. Available on-site and remotely for fintech, booking, LMS, and ERP.',
         },
         { name: 'theme-color', content: '#1d1d1d' },
         { property: 'og:type', content: 'website' },
-        { property: 'og:title', content: 'Ahmed Taher — Senior Frontend Engineer' },
+        { property: 'og:title', content: 'Ahmed Taher — Frontend Engineer' },
         {
           property: 'og:description',
           content:
-            'TypeScript-first Senior Frontend Engineer — Vue 3, Nuxt, React, and Next.js for production LMS, ERP, fintech, and booking apps.',
+            'Dubai-based Frontend Engineer with TypeScript across React, Next.js, Vue 3, and Nuxt — on-site and remote.',
         },
+
         { name: 'twitter:card', content: 'summary_large_image' },
       ],
       link: [

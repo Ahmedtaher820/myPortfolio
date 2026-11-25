@@ -1,9 +1,10 @@
 import type { SkillGroup } from '../types/portfolio'
 
+/** Aligned to Ahmed-Taher-Software-Engineer-CV.pdf (+ Vuetify, Bootstrap per brief) */
 export const skillGroups: SkillGroup[] = [
   {
     title: 'Frameworks',
-    items: ['React', 'Next.js', 'Vue 3', 'Nuxt 3', 'Nuxt 4'],
+    items: ['React', 'Next.js', 'Vue 3', 'Nuxt 3'],
   },
   {
     title: 'Languages',
@@ -15,7 +16,15 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     title: 'UI',
-    items: ['Tailwind', 'PrimeVue', 'shadcn/ui', 'shadcn-vue'],
+    items: [
+      'Tailwind CSS',
+      'PrimeVue',
+      'Vuetify',
+      'Bootstrap',
+      'shadcn/ui',
+      'shadcn-vue',
+      'Design systems',
+    ],
   },
   {
     title: 'APIs',
@@ -27,6 +36,6 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     title: 'Other',
-    items: ['SSR', 'PWA', 'SEO', 'A11y', 'Performance'],
+    items: ['SSR', 'PWA', 'SEO', 'A11y', 'Performance', 'Code reviews'],
   },
 ]

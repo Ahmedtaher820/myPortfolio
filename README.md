@@ -6,7 +6,7 @@ Senior Frontend Engineer portfolio migrated from static HTML/CSS/JS to **Nuxt 4*
 - **Legacy static site (preserved):** `legacy-static/` (original HTML/CSS/JS/GSAP + `img/`)
 - **Sibling scaffold (optional duplicate):** `A:\Projects\myPortfolio-nuxt`
 - **Live (current Vercel static):** https://my-portfolio-pied-delta.vercel.app/
-- **CV:** `public/cv/Ahmed_Taher_Hamouda_Senior_Frontend_CV.pdf`
+- **CV:** `public/cv/Ahmed-Taher-Software-Engineer-CV.pdf`
 
 ## Stack
 
