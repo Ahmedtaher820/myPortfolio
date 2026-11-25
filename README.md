@@ -41,4 +41,4 @@ See `.env.example`:
 
 ## Sections
 
-Hero · About · Engineering Highlights · Technical Expertise · Experience (CV) · Projects (brief order + Mashawirk/Sumaya emphasis) · Contact · More work (Configurator, Richbasin)
+Hero · About · Engineering Highlights · Technical Expertise · Experience (CV) · Projects (brief order + Mashawirk/Sumaya emphasis) · Contact · More work (Configurator)

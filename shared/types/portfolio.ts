@@ -26,6 +26,8 @@ export interface ProjectItem {
   tech: string[]
   cover: string
   images: string[]
+  /** CV-backed display year or range when known */
+  year?: string
   liveUrl?: string
   featured?: boolean
   moreWork?: boolean

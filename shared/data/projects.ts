@@ -23,6 +23,7 @@ export const projects: ProjectItem[] = [
     images: ['/images/projects/sumaya/main_bg.png'],
     liveUrl: 'https://sumaya369.net',
     featured: true,
+    year: '2025',
   },
   {
     id: 'bemaal',
@@ -50,6 +51,7 @@ export const projects: ProjectItem[] = [
       '/images/projects/bemaal/img3.PNG',
     ],
     liveUrl: 'https://bemaal.com/',
+    year: '2024–2025',
   },
   {
     id: 'easypear',
@@ -73,6 +75,7 @@ export const projects: ProjectItem[] = [
       '/images/projects/easypear/img1.png',
     ],
     liveUrl: 'https://easypear.com/',
+    year: '2025',
   },
   {
     id: 'mahjoz',
@@ -100,6 +103,7 @@ export const projects: ProjectItem[] = [
       '/images/projects/mahjoz/mahjoz5.PNG',
     ],
     liveUrl: 'https://app.mahjoz.io/?section=sign-in',
+    year: '2022–2023',
   },
   {
     id: 'mashawirk',
@@ -153,6 +157,7 @@ export const projects: ProjectItem[] = [
       '/images/projects/moteelz/mob1.PNG',
     ],
     liveUrl: 'https://moteelz.com/',
+    year: '2024–2025',
   },
   {
     id: 'clublab',
@@ -179,6 +184,7 @@ export const projects: ProjectItem[] = [
       '/images/projects/clublab/img4.PNG',
     ],
     liveUrl: 'https://clublabgolf.com/',
+    year: '2023–2024',
   },
   {
     id: 'golfkraft',
@@ -201,6 +207,7 @@ export const projects: ProjectItem[] = [
       '/images/projects/golfkraft/img1.PNG',
     ],
     liveUrl: 'https://eu.golfmanager.com/golfkraft/',
+    year: '2023–2024',
   },
   {
     id: 'configurator',
@@ -219,46 +226,7 @@ export const projects: ProjectItem[] = [
     tech: ['Nuxt 3', 'TypeScript', 'Pinia', 'PrimeVue'],
     cover: '/images/projects/configurator/main.PNG',
     images: ['/images/projects/configurator/main.PNG'],
-    moreWork: true,
-  },
-  {
-    id: 'richbasin-web',
-    slug: 'richbasin-website',
-    number: '010',
-    name: 'Richbasin Website',
-    company: 'Freelance',
-    industry: 'Web application',
-    description: 'Freelance Nuxt website project.',
-    role: 'Frontend Developer',
-    contributions: ['Built responsive Nuxt 3 site with TypeScript and Tailwind.'],
-    tech: ['Nuxt 3', 'TypeScript', 'Pinia', 'Tailwind', 'REST'],
-    cover: '/images/projects/richbasin/richbasin1.PNG',
-    images: [
-      '/images/projects/richbasin/richbasin1.PNG',
-      '/images/projects/richbasin/richbasin2.PNG',
-      '/images/projects/richbasin/richbasin4.PNG',
-    ],
-    liveUrl: 'https://github.com/Ahmedtaher820/richbasin',
-    moreWork: true,
-  },
-  {
-    id: 'richbasin-dash',
-    slug: 'richbasin-dashboard',
-    number: '011',
-    name: 'Richbasin Dashboard',
-    company: 'Freelance',
-    industry: 'Admin dashboard',
-    description: 'Freelance admin dashboard companion to Richbasin.',
-    role: 'Frontend Developer',
-    contributions: ['Built dashboard UI and auth-related flows.'],
-    tech: ['Nuxt 3', 'TypeScript', 'Pinia', 'Tailwind'],
-    cover: '/images/projects/richbasin/richbasin5.PNG',
-    images: [
-      '/images/projects/richbasin/richbasin5.PNG',
-      '/images/projects/richbasin/richbasin6.PNG',
-      '/images/projects/richbasin/richbasin7.PNG',
-    ],
-    liveUrl: 'https://github.com/Ahmedtaher820/richbasin-dashboard',
+    year: '2023–2024',
     moreWork: true,
   },
 ]
