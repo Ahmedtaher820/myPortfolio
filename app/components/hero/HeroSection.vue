@@ -5,7 +5,7 @@ const root = ref<HTMLElement | null>(null)
 const socialRail = ref<HTMLElement | null>(null)
 const indicator = ref<HTMLElement | null>(null)
 
-/** Match legacy-static index.html + apps.js: outline letters; non-dot data-char bounce. */
+/** Match legacy-static: outline letters; filled underlays bounce (non-dot data-char). */
 const letters = [
   { char: 'A', under: '.' },
   { char: 'H', under: 'H' },
@@ -31,50 +31,59 @@ onMounted(async () => {
   const gsap = $gsap as typeof import('gsap').default
   if (!gsap) return
 
+  const prefersCoarse = window.matchMedia('(max-width: 1023px)').matches
+
   const ctx = gsap.context(() => {
     const name = root.value!.querySelector<HTMLElement>('.outlined-name')
     if (!name) return
 
-    // Legacy: querySelectorAll(".left-slide .name span")
     const spans = name.querySelectorAll<HTMLElement>('span')
-    // Legacy: heading.querySelectorAll("span:not([data-char='.'])")
-    const bounce = name.querySelectorAll<HTMLElement>("span:not([data-char='.'])")
+    // Only letter spans with a real fill — exclude "." underlays and the space
+    const bounce = name.querySelectorAll<HTMLElement>('span[data-char]:not([data-char="."])')
 
-    // Legacy apps.js timeline (after intro covers): set → yPercent:0 → bounce y:60
+    const fontPx = parseFloat(getComputedStyle(name).fontSize) || 48
+    // Legacy: ~55px type, ::before -63px (~1.15em), bounce y:60 (~1.09em).
+    // Scale with font so fill parks fully above overflow clip (fixes lg white-letter overlap).
+    const bouncePx = Math.round(fontPx * 1.12)
+    name.style.setProperty('--name-bounce', `${bouncePx}px`)
+
     const tl = gsap.timeline({ delay: 0.15 })
 
     tl.from('.hero-panel', {
       opacity: 0,
       y: 24,
-      duration: 1.1,
+      duration: prefersCoarse ? 0.7 : 1.1,
       ease: 'power2.out',
     }, 0)
 
-    tl.from('.hero-portrait', {
-      opacity: 0,
-      x: 40,
-      duration: 1.2,
-      ease: 'power2.out',
-    }, 0.2)
+    if (!prefersCoarse) {
+      tl.from('.hero-portrait', {
+        opacity: 0,
+        x: 40,
+        duration: 1.2,
+        ease: 'power2.out',
+      }, 0.2)
+    }
 
-    // Entrance from below (overflow clip); legacy set was empty but to(yPercent:0) implies a rise
     tl.set(spans, { yPercent: 100 }, 0)
     tl.to(spans, {
       yPercent: 0,
-      duration: 1,
-      stagger: 0.05,
+      duration: prefersCoarse ? 0.75 : 1,
+      stagger: prefersCoarse ? 0.03 : 0.05,
       ease: 'expo.inOut',
-    }, 0.35)
+    }, 0.3)
 
-    // Only after reveal finishes — chained like legacy .to(...).to(replaceEle, ...)
-    tl.to(bounce, {
-      y: 60,
-      duration: 1,
-      yoyo: true,
-      repeat: -1,
-      stagger: 0.05,
-      ease: 'expo.inOut',
-    })
+    // Desktop: legacy-style bounce. Mobile: skip continuous bounce (perf + cleaner).
+    if (!prefersCoarse) {
+      tl.to(bounce, {
+        y: bouncePx,
+        duration: 1,
+        yoyo: true,
+        repeat: -1,
+        stagger: 0.05,
+        ease: 'expo.inOut',
+      })
+    }
   }, root.value)
 
   onBeforeUnmount(() => ctx.revert())
@@ -108,14 +117,13 @@ function goSection(id: string) {
     ref="root"
     class="hero-section relative min-h-[100svh] overflow-hidden px-5 md:px-10 lg:px-16"
   >
-    <!-- Text column: centered in viewport; right padding clears bottom-anchored figure on lg -->
     <div
-      class="hero-layout relative z-[2] w-full max-w-6xl mx-auto min-h-[100svh] flex flex-col justify-center pt-16 md:pt-20 lg:py-24 pb-[min(56svh,480px)] sm:pb-[min(58svh,520px)] lg:pb-24 lg:pr-[min(38vw,380px)]"
+      class="hero-layout relative z-[2] w-full max-w-6xl mx-auto min-h-[100svh] flex flex-col justify-center py-16 md:py-20 lg:py-24 lg:pr-[min(38vw,380px)]"
     >
       <div class="hero-panel flex flex-col items-center lg:items-start text-center lg:text-left max-w-2xl mx-auto lg:mx-0">
         <p class="html-tag mb-4" aria-hidden="true">&lt;h1&gt;</p>
         <h1
-          class="outlined-name name font-display text-4xl sm:text-5xl md:text-7xl lg:text-[5.25rem] leading-none tracking-[-0.06em] mb-6 inline-flex flex-wrap justify-center lg:justify-start gap-x-1"
+          class="outlined-name name font-display text-[clamp(2rem,6vw,5.25rem)] leading-none tracking-[-0.06em] mb-6"
         >
           <span
             v-for="(item, i) in letters"
@@ -177,24 +185,27 @@ function goSection(id: string) {
       </div>
     </div>
 
-    <!-- Portrait: feet flush to hero bottom edge (no pad gap) -->
+    <!-- Portrait: lg+ only (mobile looked cramped/halo); feet flush to hero bottom -->
     <div
-      class="hero-portrait pointer-events-none select-none absolute z-[1] bottom-0 left-1/2 -translate-x-1/2 lg:left-auto lg:right-[max(1rem,calc((100vw-72rem)/2))] lg:translate-x-0 flex items-end justify-center"
+      class="hero-portrait pointer-events-none select-none absolute z-[1] bottom-0 right-[max(1rem,calc((100vw-72rem)/2))] hidden lg:flex items-end justify-end"
     >
       <div class="relative flex items-end justify-center">
         <div
-          class="absolute inset-x-[12%] bottom-0 h-[10%] rounded-[100%] bg-accent/25 blur-2xl"
+          class="absolute inset-x-[12%] bottom-0 h-[10%] rounded-[100%] bg-accent/20 blur-2xl"
           aria-hidden="true"
         />
-        <img
-          src="/images/hero/ahmed-portrait.png"
-          alt="Ahmed Taher"
-          width="535"
-          height="1226"
-          class="relative z-[1] block w-auto h-[min(58svh,520px)] sm:h-[min(62svh,560px)] lg:h-[min(88svh,760px)] max-w-[min(52vw,280px)] lg:max-w-[min(36vw,380px)] object-contain object-bottom drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]"
-          decoding="async"
-          fetchpriority="high"
-        >
+        <picture>
+          <source srcset="/images/hero/ahmed-portrait.webp" type="image/webp">
+          <img
+            src="/images/hero/ahmed-portrait.png"
+            alt="Ahmed Taher"
+            width="400"
+            height="920"
+            class="relative z-[1] block w-auto h-[min(88svh,760px)] max-w-[min(36vw,380px)] object-contain object-bottom drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]"
+            decoding="async"
+            fetchpriority="high"
+          >
+        </picture>
       </div>
     </div>
   </section>

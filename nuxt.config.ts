@@ -17,7 +17,7 @@ export default defineNuxtConfig({
         {
           name: 'description',
           content:
-            'Senior Frontend Engineer specializing in Vue 3, Nuxt, React, Next.js, and TypeScript. Building LMS, ERP, fintech, and booking platforms.',
+            'Senior Frontend Engineer with TypeScript across Vue 3, Nuxt, React, and Next.js. Building LMS, ERP, fintech, and booking platforms.',
         },
         { name: 'theme-color', content: '#1d1d1d' },
         { property: 'og:type', content: 'website' },
@@ -25,7 +25,7 @@ export default defineNuxtConfig({
         {
           property: 'og:description',
           content:
-            'Senior Frontend Engineer specializing in Vue 3, Nuxt, React, Next.js, and TypeScript.',
+            'TypeScript-first Senior Frontend Engineer — Vue 3, Nuxt, React, and Next.js for production LMS, ERP, fintech, and booking apps.',
         },
         { name: 'twitter:card', content: 'summary_large_image' },
       ],
@@ -35,7 +35,8 @@ export default defineNuxtConfig({
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         {
           rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=La+Belle+Aurore&family=Mochiy+Pop+One&display=swap',
+          // Subset weights; display=swap for CWV
+          href: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=La+Belle+Aurore&family=Mochiy+Pop+One&display=swap',
         },
       ],
     },

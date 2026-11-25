@@ -10,6 +10,7 @@
   --mint: #91eae4;
   --tag: #6b6b6b;
   --soft: #2b2b2b;
+  --name-bounce: 1.12em;
 }
 
 * {
@@ -74,11 +75,16 @@ body {
     @apply px-5 py-16 md:px-10 md:py-24 lg:px-16;
   }
 
-  /* Match legacy-static: outline glyph + solid ::before underlay (apps.js bounce y:60) */
+  /*
+   * Legacy outline + solid underlay bounce.
+   * --name-bounce is set in JS to match GSAP y so fill parks fully above the overflow clip on all sizes.
+   */
   .outlined-name {
     -webkit-text-stroke: 1px #fff;
     color: transparent !important;
     overflow: hidden;
+    white-space: nowrap;
+    line-height: 1.05;
   }
 
   .outlined-name span {
@@ -86,6 +92,7 @@ body {
     position: relative;
     color: transparent;
     -webkit-text-stroke: 1px #fff;
+    will-change: transform;
   }
 
   .outlined-name span[data-char]::before {
@@ -95,8 +102,7 @@ body {
     left: 0;
     color: #fff;
     -webkit-text-stroke: 0;
-    /* Parked above the overflow clip; bounce y:60 brings fill into view (legacy -63px @ ~55px type) */
-    transform: translateY(-60px);
+    transform: translateY(calc(-1 * var(--name-bounce, 1.12em)));
     pointer-events: none;
   }
 }

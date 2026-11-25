@@ -58,6 +58,8 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
               :src="project.images[activeImage] || project.cover"
               :alt="`${project.name} screenshot`"
               class="w-full h-56 md:h-full object-cover object-top min-h-[240px]"
+              loading="lazy"
+              decoding="async"
             >
             <div v-if="project.images.length > 1" class="flex gap-2 p-3 overflow-x-auto">
               <button
@@ -68,7 +70,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
                 :class="i === activeImage ? 'border-accent' : 'border-white/20'"
                 @click="activeImage = i"
               >
-                <img :src="img" alt="" class="w-full h-full object-cover">
+                <img :src="img" alt="" class="w-full h-full object-cover" loading="lazy" decoding="async">
               </button>
             </div>
           </div>

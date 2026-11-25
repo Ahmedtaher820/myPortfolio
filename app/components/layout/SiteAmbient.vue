@@ -32,7 +32,12 @@
   position: absolute;
   border-radius: 50%;
   filter: blur(90px);
-  will-change: transform, opacity;
+}
+
+@media (min-width: 1024px) {
+  .site-ambient__blob {
+    will-change: transform, opacity;
+  }
 }
 
 .site-ambient__blob--a {
@@ -129,7 +134,8 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+/* Skip continuous blob motion on small screens (CWV / battery). */
+@media (max-width: 1023px), (prefers-reduced-motion: reduce) {
   .site-ambient__blob--a,
   .site-ambient__blob--b,
   .site-ambient__blob--c,
