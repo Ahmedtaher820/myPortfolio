@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { site } from '../../../shared/data/site'
+import { contactSchema } from '../../../shared/validation/contact'
 
 const root = ref<HTMLElement | null>(null)
 const form = reactive({
@@ -34,12 +35,33 @@ onMounted(() => {
   onBeforeUnmount(() => ctx.revert())
 })
 
+function validateClient(): boolean {
+  const parsed = contactSchema.safeParse({ ...form })
+  if (parsed.success) {
+    fieldErrors.value = {}
+    return true
+  }
+  const errors: Record<string, string> = {}
+  for (const issue of parsed.error.issues) {
+    const key = String(issue.path[0] || 'form')
+    if (!errors[key]) errors[key] = issue.message
+  }
+  fieldErrors.value = errors
+  return false
+}
+
 async function onSubmit() {
   if (status.value === 'loading') return
   status.value = 'loading'
   errorMsg.value = ''
   errorHint.value = ''
   fieldErrors.value = {}
+
+  if (!validateClient()) {
+    status.value = 'error'
+    errorMsg.value = 'Please fix the highlighted fields and try again.'
+    return
+  }
 
   try {
     const res = await $fetch<{ ok: boolean; message?: string; errors?: Record<string, string> }>(
@@ -56,6 +78,7 @@ async function onSubmit() {
       form.phone = ''
       form.subject = ''
       form.message = ''
+      fieldErrors.value = {}
     } else {
       status.value = 'error'
       errorMsg.value = res.message || 'Unable to send message.'
@@ -70,6 +93,7 @@ async function onSubmit() {
     }
     const code = err?.statusCode
     const serverMsg = err?.data?.message || err?.statusMessage || ''
+    fieldErrors.value = err?.data?.errors || {}
 
     if (code === 503 || /not configured|RESEND/i.test(serverMsg)) {
       errorMsg.value = 'Email delivery is not configured on this environment yet.'
@@ -78,7 +102,6 @@ async function onSubmit() {
       errorMsg.value = serverMsg || 'Too many requests. Please wait a moment and try again.'
     } else if (code === 400) {
       errorMsg.value = serverMsg || 'Please fix the highlighted fields and try again.'
-      fieldErrors.value = err?.data?.errors || {}
     } else if (code === 502) {
       errorMsg.value = 'The email provider could not deliver your message. Please try again in a few minutes.'
       errorHint.value = `Or email me at ${site.email}.`
@@ -86,7 +109,6 @@ async function onSubmit() {
       errorMsg.value = serverMsg || 'Unable to send message. Please try again.'
       errorHint.value = `If this keeps happening, email ${site.email}.`
     }
-    fieldErrors.value = err?.data?.errors || fieldErrors.value
   }
 }
 </script>
@@ -124,60 +146,94 @@ async function onSubmit() {
         >
 
         <div>
-          <label class="block text-xs uppercase tracking-wider text-fog mb-2" for="fullName">Full Name</label>
+          <label class="block text-xs uppercase tracking-wider text-fog mb-2" for="fullName">
+            Full Name <span class="text-accent">*</span>
+          </label>
           <input
             id="fullName"
             v-model="form.fullName"
             type="text"
+            name="fullName"
+            autocomplete="name"
             required
+            aria-required="true"
+            :aria-invalid="!!fieldErrors.fullName"
             class="w-full bg-ink-soft/80 border-0 border-b-2 border-white/20 focus:border-accent outline-none px-3 py-3 text-white"
+            :class="{ 'border-red-400/70': fieldErrors.fullName }"
           >
           <p v-if="fieldErrors.fullName" class="text-xs text-red-400 mt-1">{{ fieldErrors.fullName }}</p>
         </div>
 
         <div>
-          <label class="block text-xs uppercase tracking-wider text-fog mb-2" for="email">Email</label>
+          <label class="block text-xs uppercase tracking-wider text-fog mb-2" for="email">
+            Email <span class="text-accent">*</span>
+          </label>
           <input
             id="email"
             v-model="form.email"
             type="email"
+            name="email"
+            autocomplete="email"
             required
+            aria-required="true"
+            :aria-invalid="!!fieldErrors.email"
             class="w-full bg-ink-soft/80 border-0 border-b-2 border-white/20 focus:border-accent outline-none px-3 py-3 text-white"
+            :class="{ 'border-red-400/70': fieldErrors.email }"
           >
           <p v-if="fieldErrors.email" class="text-xs text-red-400 mt-1">{{ fieldErrors.email }}</p>
         </div>
 
         <div>
-          <label class="block text-xs uppercase tracking-wider text-fog mb-2" for="phone">Phone</label>
+          <label class="block text-xs uppercase tracking-wider text-fog mb-2" for="phone">
+            Phone <span class="text-accent">*</span>
+          </label>
           <input
             id="phone"
             v-model="form.phone"
             type="tel"
+            name="phone"
+            autocomplete="tel"
+            required
+            aria-required="true"
+            :aria-invalid="!!fieldErrors.phone"
             class="w-full bg-ink-soft/80 border-0 border-b-2 border-white/20 focus:border-accent outline-none px-3 py-3 text-white"
+            :class="{ 'border-red-400/70': fieldErrors.phone }"
           >
           <p v-if="fieldErrors.phone" class="text-xs text-red-400 mt-1">{{ fieldErrors.phone }}</p>
         </div>
 
         <div>
-          <label class="block text-xs uppercase tracking-wider text-fog mb-2" for="subject">Subject</label>
+          <label class="block text-xs uppercase tracking-wider text-fog mb-2" for="subject">
+            Subject <span class="text-accent">*</span>
+          </label>
           <input
             id="subject"
             v-model="form.subject"
             type="text"
+            name="subject"
             required
+            aria-required="true"
+            :aria-invalid="!!fieldErrors.subject"
             class="w-full bg-ink-soft/80 border-0 border-b-2 border-white/20 focus:border-accent outline-none px-3 py-3 text-white"
+            :class="{ 'border-red-400/70': fieldErrors.subject }"
           >
           <p v-if="fieldErrors.subject" class="text-xs text-red-400 mt-1">{{ fieldErrors.subject }}</p>
         </div>
 
         <div>
-          <label class="block text-xs uppercase tracking-wider text-fog mb-2" for="message">Message</label>
+          <label class="block text-xs uppercase tracking-wider text-fog mb-2" for="message">
+            Message / Description <span class="text-accent">*</span>
+          </label>
           <textarea
             id="message"
             v-model="form.message"
+            name="message"
             required
+            aria-required="true"
+            :aria-invalid="!!fieldErrors.message"
             rows="5"
             class="w-full bg-ink-soft/80 border-0 border-b-2 border-white/20 focus:border-accent outline-none px-3 py-3 text-white resize-y"
+            :class="{ 'border-red-400/70': fieldErrors.message }"
           />
           <p v-if="fieldErrors.message" class="text-xs text-red-400 mt-1">{{ fieldErrors.message }}</p>
         </div>

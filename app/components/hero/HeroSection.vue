@@ -5,7 +5,7 @@ const root = ref<HTMLElement | null>(null)
 const socialRail = ref<HTMLElement | null>(null)
 const indicator = ref<HTMLElement | null>(null)
 
-/** Match legacy-static: outline letters; filled underlays bounce (non-dot data-char). */
+/** Match legacy-static index.html + apps.js: outline letters; non-dot data-char bounce. */
 const letters = [
   { char: 'A', under: '.' },
   { char: 'H', under: 'H' },
@@ -32,45 +32,48 @@ onMounted(async () => {
   if (!gsap) return
 
   const ctx = gsap.context(() => {
-    const spans = root.value!.querySelectorAll<HTMLElement>('.outlined-name span[data-char]')
-    const bounce = root.value!.querySelectorAll<HTMLElement>(
-      '.outlined-name span[data-char]:not([data-char="."])',
-    )
+    const name = root.value!.querySelector<HTMLElement>('.outlined-name')
+    if (!name) return
 
-    gsap.set(spans, { yPercent: 120 })
+    // Legacy: querySelectorAll(".left-slide .name span")
+    const spans = name.querySelectorAll<HTMLElement>('span')
+    // Legacy: heading.querySelectorAll("span:not([data-char='.'])")
+    const bounce = name.querySelectorAll<HTMLElement>("span:not([data-char='.'])")
 
-    gsap.from('.hero-panel', {
+    // Legacy apps.js timeline (after intro covers): set → yPercent:0 → bounce y:60
+    const tl = gsap.timeline({ delay: 0.15 })
+
+    tl.from('.hero-panel', {
       opacity: 0,
       y: 24,
       duration: 1.1,
       ease: 'power2.out',
-      delay: 0.15,
-    })
+    }, 0)
 
-    gsap.from('.hero-portrait', {
+    tl.from('.hero-portrait', {
       opacity: 0,
       x: 40,
       duration: 1.2,
       ease: 'power2.out',
-      delay: 0.35,
-    })
+    }, 0.2)
 
-    gsap.to(spans, {
+    // Entrance from below (overflow clip); legacy set was empty but to(yPercent:0) implies a rise
+    tl.set(spans, { yPercent: 100 }, 0)
+    tl.to(spans, {
       yPercent: 0,
       duration: 1,
       stagger: 0.05,
       ease: 'expo.inOut',
-      delay: 0.25,
-    })
+    }, 0.35)
 
-    gsap.to(bounce, {
+    // Only after reveal finishes — chained like legacy .to(...).to(replaceEle, ...)
+    tl.to(bounce, {
       y: 60,
       duration: 1,
       yoyo: true,
       repeat: -1,
       stagger: 0.05,
       ease: 'expo.inOut',
-      delay: 1.35,
     })
   }, root.value)
 
@@ -103,15 +106,16 @@ function goSection(id: string) {
   <section
     id="top"
     ref="root"
-    class="section-pad min-h-[100svh] flex flex-col justify-center relative overflow-hidden"
+    class="hero-section relative min-h-[100svh] overflow-hidden px-5 md:px-10 lg:px-16"
   >
+    <!-- Text column: centered in viewport; right padding clears bottom-anchored figure on lg -->
     <div
-      class="hero-layout w-full max-w-6xl mx-auto grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.85fr)] gap-8 lg:gap-6 items-center"
+      class="hero-layout relative z-[2] w-full max-w-6xl mx-auto min-h-[100svh] flex flex-col justify-center pt-16 md:pt-20 lg:py-24 pb-[min(56svh,480px)] sm:pb-[min(58svh,520px)] lg:pb-24 lg:pr-[min(38vw,380px)]"
     >
-      <div class="hero-panel flex flex-col items-center lg:items-start text-center lg:text-left order-2 lg:order-1">
+      <div class="hero-panel flex flex-col items-center lg:items-start text-center lg:text-left max-w-2xl mx-auto lg:mx-0">
         <p class="html-tag mb-4" aria-hidden="true">&lt;h1&gt;</p>
         <h1
-          class="outlined-name name font-display text-4xl sm:text-5xl md:text-7xl lg:text-[5.25rem] leading-none tracking-[-0.06em] mb-6 inline-flex flex-wrap justify-center lg:justify-start gap-x-1 overflow-hidden"
+          class="outlined-name name font-display text-4xl sm:text-5xl md:text-7xl lg:text-[5.25rem] leading-none tracking-[-0.06em] mb-6 inline-flex flex-wrap justify-center lg:justify-start gap-x-1"
         >
           <span
             v-for="(item, i) in letters"
@@ -171,25 +175,26 @@ function goSection(id: string) {
           <span class="html-tag absolute -bottom-1 right-0" aria-hidden="true">&lt;/ul&gt;</span>
         </div>
       </div>
+    </div>
 
-      <div class="hero-portrait relative order-1 lg:order-2 flex justify-center lg:justify-end pointer-events-none select-none">
+    <!-- Portrait: feet flush to hero bottom edge (no pad gap) -->
+    <div
+      class="hero-portrait pointer-events-none select-none absolute z-[1] bottom-0 left-1/2 -translate-x-1/2 lg:left-auto lg:right-[max(1rem,calc((100vw-72rem)/2))] lg:translate-x-0 flex items-end justify-center"
+    >
+      <div class="relative flex items-end justify-center">
         <div
-          class="relative w-[min(40vw,176px)] sm:w-[200px] md:w-[240px] lg:w-[min(28vw,300px)] xl:w-[320px] max-h-[42svh] lg:max-h-[min(68svh,620px)]"
+          class="absolute inset-x-[12%] bottom-0 h-[10%] rounded-[100%] bg-accent/25 blur-2xl"
+          aria-hidden="true"
+        />
+        <img
+          src="/images/hero/ahmed-portrait.png"
+          alt="Ahmed Taher"
+          width="535"
+          height="1226"
+          class="relative z-[1] block w-auto h-[min(58svh,520px)] sm:h-[min(62svh,560px)] lg:h-[min(88svh,760px)] max-w-[min(52vw,280px)] lg:max-w-[min(36vw,380px)] object-contain object-bottom drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]"
+          decoding="async"
+          fetchpriority="high"
         >
-          <div
-            class="absolute inset-x-[12%] bottom-[2%] h-[12%] rounded-[100%] bg-accent/25 blur-2xl"
-            aria-hidden="true"
-          />
-          <img
-            src="/images/hero/ahmed-portrait.png"
-            alt="Ahmed Taher"
-            width="535"
-            height="1226"
-            class="relative z-[1] w-full h-full max-h-[42svh] lg:max-h-[min(68svh,620px)] object-contain object-bottom drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]"
-            decoding="async"
-            fetchpriority="high"
-          >
-        </div>
       </div>
     </div>
   </section>

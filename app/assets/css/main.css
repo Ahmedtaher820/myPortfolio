@@ -74,10 +74,11 @@ body {
     @apply px-5 py-16 md:px-10 md:py-24 lg:px-16;
   }
 
-  /* Match legacy-static letter outline + filled underlay bounce */
+  /* Match legacy-static: outline glyph + solid ::before underlay (apps.js bounce y:60) */
   .outlined-name {
     -webkit-text-stroke: 1px #fff;
     color: transparent !important;
+    overflow: hidden;
   }
 
   .outlined-name span {
@@ -94,14 +95,9 @@ body {
     left: 0;
     color: #fff;
     -webkit-text-stroke: 0;
-    transform: translateY(-63px);
+    /* Parked above the overflow clip; bounce y:60 brings fill into view (legacy -63px @ ~55px type) */
+    transform: translateY(-60px);
     pointer-events: none;
-  }
-
-  @media (max-width: 768px) {
-    .outlined-name span[data-char]::before {
-      transform: translateY(-42px);
-    }
   }
 }
 

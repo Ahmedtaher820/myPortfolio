@@ -66,7 +66,7 @@ export default defineEventHandler(async (event) => {
       text: [
         `Name: ${fullName}`,
         `Email: ${email}`,
-        `Phone: ${phone || '—'}`,
+        `Phone: ${phone}`,
         `Subject: ${subject}`,
         '',
         message,
