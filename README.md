@@ -1,34 +1,44 @@
-# MyPortfolio
+# Ahmed Taher — Portfolio (Nuxt 4)
 
-## Links
+Senior Frontend Engineer portfolio migrated from static HTML/CSS/JS to **Nuxt 4**.
 
-Live Site Url: https://ahmedtaher820.github.io/my-portfolio/
+- **App root:** `A:\Projects\myPortfolio` (this repo)
+- **Legacy static site (preserved):** `legacy-static/` (original HTML/CSS/JS/GSAP + `img/`)
+- **Sibling scaffold (optional duplicate):** `A:\Projects\myPortfolio-nuxt`
+- **Live (current Vercel static):** https://my-portfolio-pied-delta.vercel.app/
+- **CV:** `public/cv/Ahmed_Taher_Hamouda_Senior_Frontend_CV.pdf`
 
-## Tools
+## Stack
 
-- Html
-- Css3
-- JavaScript
-- GSAP
-- Swiper
-- Bootstrap5
+Nuxt 4 · Vue 3 Composition API · TypeScript · Tailwind · GSAP + ScrollTrigger · SSR · Resend contact API
 
-## Social
+## Run locally
 
-<ul >
-    <li>
-        <a href="https://www.facebook.com/profile.php?id=100022070504463" target="_blank"
-            >FaceBook</a>
-    </li>
-    <li>
-        <a href="https://github.com/Ahmedtaher820" target="_blank">Github</a>
-    </li>
-    <li>
-        <a href="https://www.linkedin.com/in/ahmed-taher-141682221/" 
-            target="_blank">LinkedIn</a>
-    </li>
-    <li  >
-        <a href="https://www.instagram.com/aahmedttaherr/" 
-            target="_blank">Instagram</a>
-    </li>
-</ul>
+```bash
+cd A:\Projects\myPortfolio
+copy .env.example .env
+npm install
+npm run dev
+```
+
+Open http://localhost:3000
+
+## Production
+
+```bash
+npm run build
+npm run preview
+```
+
+## Environment
+
+See `.env.example`:
+
+- `NUXT_RESEND_API_KEY` — required for contact email delivery
+- `NUXT_CONTACT_TO_EMAIL` — default `ahmedtaher4550@gmail.com`
+- `NUXT_CONTACT_FROM_EMAIL` — verified Resend sender
+- `NUXT_PUBLIC_SITE_URL` — canonical / OG URL
+
+## Sections
+
+Hero · About · Engineering Highlights · Technical Expertise · Experience (CV) · Projects (brief order + Mashawirk/Sumaya emphasis) · Contact · More work (Configurator, Richbasin)
